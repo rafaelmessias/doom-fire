@@ -3,7 +3,6 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include "SDL_endian.h"
-#include <math.h>
 #include "renderer.h"
 
 
@@ -126,26 +125,6 @@ void initSystem()
     glLinkProgram(ShaderProg);
     glUseProgram(ShaderProg);
 
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
-
-    // This is needed in order to handle gl_PointCoord in the fragment shader
-    // NOTE This is always on in OpenGL 3.2+
-    // glEnable(GL_POINT_SPRITE);
-
-    // This is needed for alpha
-    // glEnable(GL_BLEND);
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    glEnable(GL_MULTISAMPLE);
-    
-    // This is basically supersampling (all fragments are multisampled). Useful if you are discarding fragments.
-    glEnable(GL_SAMPLE_SHADING);
-    glMinSampleShading(1.0);
-
-    // NOTE This never seem to work for me.
-    // glEnable(GL_POINT_SMOOTH);
-
     unsigned int texture;
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -154,17 +133,6 @@ void initSystem()
     // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    // load and generate the texture
-    // int WIDTH, HEIGHT, nrChannels;
-    // unsigned char *data = stbi_load("container.jpg", &WIDTH, &HEIGHT, &nrChannels, 0);
-    
-        // glGenerateMipmap(GL_TEXTURE_2D);
-    // }
-    // else
-    // {
-    //     printf("Failed to load texture\n");
-    // }
-    // stbi_image_free(data);
 
     float vertices[] =
     {
@@ -177,9 +145,6 @@ void initSystem()
 
     memset(pal_idx, 0, WIDTH * HEIGHT);
     memset(data, 0, WIDTH * HEIGHT * 3);
-
-    // palette = malloc(37 * 3);
-    // memcpy(palette, rgbs, 37 * 3);
 }
 
 void setPalette(unsigned char srcPal[][3], int len)
@@ -198,8 +163,6 @@ void startLoop(void (*renderFrame)(void))
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         renderFrame();
-
-        // unsigned char (*palette)[3] = (unsigned char (*)[3])rgbs;
 
         // Transfer palette to framebuffer
         for (int i = 0; i < HEIGHT; ++i)
@@ -241,15 +204,3 @@ void startLoop(void (*renderFrame)(void))
     }
     while(!quit);
 }
-
-// int main(int argc, char *argv[])
-// {
-//     initSystem();
-
-//     for (int j = 0; j < WIDTH; ++j)
-//     {
-//         pal_idx[0][j] = 36;
-//     }
-
-//     startLoop(__renderFrame);    
-// }
