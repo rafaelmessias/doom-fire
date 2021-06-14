@@ -8,9 +8,9 @@
 
 SDL_Window *Window;
 GLuint Vbo, Vao, ShaderProg;
-unsigned char pal_idx[WIDTH][HEIGHT];
-unsigned char data[WIDTH][HEIGHT][3];
-unsigned char (*palette)[3];
+byte pal_idx[WIDTH][HEIGHT];
+byte data[WIDTH][HEIGHT][3];
+byte palette[256][3];
 
 GLchar* vertexSrc = \
     "#version 150\n\
@@ -147,11 +147,8 @@ void initSystem()
     memset(data, 0, WIDTH * HEIGHT * 3);
 }
 
-void setPalette(unsigned char srcPal[][3], int len)
+void setPalette(byte srcPal[][3], int len)
 {
-    if (palette != NULL)
-        free(palette);
-    palette = (unsigned char (*)[3])malloc(len * 3);
     memcpy(palette, srcPal, len * 3);
 }
 

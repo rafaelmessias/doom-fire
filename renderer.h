@@ -1,6 +1,8 @@
 #define WIDTH 400
 #define HEIGHT 400
 
+typedef unsigned char byte;
+
 extern unsigned char pal_idx[WIDTH][HEIGHT];
 
 void initSystem();
