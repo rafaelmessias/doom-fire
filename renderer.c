@@ -8,8 +8,8 @@
 
 SDL_Window *Window;
 GLuint Vbo, Vao, ShaderProg;
-byte pal_idx[WIDTH][HEIGHT];
-byte data[WIDTH][HEIGHT][3];
+byte pal_idx[HEIGHT][WIDTH];
+byte data[HEIGHT][WIDTH][3];
 byte palette[256][3];
 
 GLchar* vertexSrc = \
@@ -40,15 +40,13 @@ void initSystem()
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 2 );
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
     
     Window = SDL_CreateWindow(
-        "Doom Fire PSX", 
+        WINDOW_TITLE, 
         SDL_WINDOWPOS_UNDEFINED, 
         SDL_WINDOWPOS_UNDEFINED, 
-        2 * WIDTH,
-        2 * HEIGHT, 
+        SCALE * WIDTH,
+        SCALE * HEIGHT, 
         SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
     SDL_GLContext *context = SDL_GL_CreateContext(Window);
     SDL_GL_MakeCurrent(Window, context);
